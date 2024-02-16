@@ -1,4 +1,5 @@
-const siteUrl = `https://api.rawg.io/api/games?key=464bc085dbbf4f33bcb2ccb39d36a6ec`;
+const siteUrl = "https://api.rawg.io/api";
+const apiKey = "?key=464bc085dbbf4f33bcb2ccb39d36a6ec";
 
 function isSafeGame(game) {
     const esrbRatingId = game.esrb_rating ? game.esrb_rating.id : null;
@@ -7,8 +8,10 @@ function isSafeGame(game) {
 
 async function getTopRated() {
     const param = `${siteUrl}&ordering=-metacritic`;
+    const params = new URL(`${siteUrl}/games${apiKey}`)
+    params.searchParams.append("ordering", "-metacritic");
     try {
-        const response = await fetch(param);
+        const response = await fetch(params);
         const data = await response.json();
         const safeGames = data.results.filter(game => isSafeGame(game));
         return safeGames;
@@ -18,7 +21,7 @@ async function getTopRated() {
     }
 }
 async function getSearchedGames(searchTerm) {
-    const params = new URL(siteUrl);
+    const params = new URL(`${siteUrl}/games${apiKey}`);
     params.searchParams.append("search", searchTerm);
     params.searchParams.append("page_size", "10");
     params.searchParams.append("ordering", "released");
@@ -30,7 +33,7 @@ async function getSearchedGames(searchTerm) {
         return safeGames;
     } catch (error) {
         console.error(error);
-        throw new Error('Failed to fetch top rated games');
+        throw new Error('Failed to fetch searched games');
     }
 }
 
