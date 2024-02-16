@@ -17,5 +17,24 @@ async function getTopRated() {
         throw new Error('Failed to fetch top rated games');
     }
 }
+async function getSearchedGames(searchTerm) {
+    const params = new URL(siteUrl);
+    params.searchParams.append("search", searchTerm);
+    params.searchParams.append("page_size", "10");
+    params.searchParams.append("ordering", "released");
 
-export { getTopRated };
+    try {
+        const response = await fetch(params);
+        const data = await response.json();
+        const safeGames = data.results.filter(game => isSafeGame(game));
+        return safeGames;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Failed to fetch top rated games');
+    }
+}
+
+export { 
+    getTopRated,
+    getSearchedGames
+};

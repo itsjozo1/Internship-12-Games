@@ -1,6 +1,11 @@
-import { getTopRated } from "./Api.js";
+import { 
+    getTopRated,
+    getSearchedGames
+} from "./Api.js";
 
-let gameContainer1 = document.querySelector(".games-container");
+let gameContainer1 = document.querySelector("#zad1 .games-container");
+let gameContainer2 = document.querySelector("#zad2 .games-container");
+
 
 function createGameDesc(game){
     if(game.background_image === null){
@@ -38,8 +43,22 @@ function appendGames(games, container) {
 
 
 (async () => {
-    let games = await getTopRated()
+    //ZAD 1
+    let games = await getTopRated();
     console.log(games);
-    appendGames(games, gameContainer1)
+    appendGames(games, gameContainer1);
 
+    //ZAD 2
+    let button = document.querySelector(".search-button")
+    button.onclick = async () => {
+        gameContainer2.innerHTML = "";
+        try {
+            let searchString = document.querySelector(".search-game").value;
+            let searchGames = await getSearchedGames(searchString);
+            appendGames(searchGames, gameContainer2);
+        } catch (error) {
+            console.error("Error fetching or displaying searched games:", error);
+        }
+    };
 })();
+
