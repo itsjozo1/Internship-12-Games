@@ -37,7 +37,40 @@ async function getSearchedGames(searchTerm) {
     }
 }
 
+async function getPopularPlatforms(){
+    const params = new URL(`${siteUrl}/platforms${apiKey}`);
+    params.searchParams.append("page_size", "10");
+    params.searchParams.append("ordering", "-games_count");
+
+    try {
+        const response = await fetch(params);
+        const data = await response.json();
+        return data.results;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Failed to fetch top platforms');
+    }
+}
+
+async function getGamesByPlatforms(platforms){
+    const params = new URL(`${siteUrl}/games${apiKey}`);
+    params.searchParams.append("platforms", platforms)
+    params.searchParams.append("page_size", "20");
+    params.searchParams.append("ordering", "-name");
+
+    try {
+        const response = await fetch(params);
+        const data = await response.json();
+        return data.results;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Failed to fetch games by platform');
+    }
+}
+
 export { 
     getTopRated,
-    getSearchedGames
+    getSearchedGames,
+    getPopularPlatforms,
+    getGamesByPlatforms
 };
