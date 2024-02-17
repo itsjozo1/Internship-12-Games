@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zad1</title>
-    <script src="./Api.js" type="module"></script>
-    <script src="./Sript.js" type="module"></script>
+    <script src="./Script/Api.js" type="module"></script>
+    <script src="./Script/Sript.js" type="module"></script>
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
@@ -13,22 +13,38 @@
       <h2>Top rated games</h2>
       <div class="games-container"></div>
     </div>
-    <div id="zad2" class="task-section">
-      <h2>Search game</h2>
-      <div class="search-holder">
-        <input type="text" class="search-game" placeholder="Search..." />
-        <button class="search-button">Search</button>
+    <div class="search-options-container">
+      <ul class="search-option-list">
+        <li class="zad1">Search by name</li>
+        <li class="zad2">Search by platforms</li>
+        <li class="zad2">Search by id</li>
+      </ul>
+      <div id="zad2" class="task-section search-section">
+        <h2>Search game</h2>
+        <div class="search-holder">
+          <input type="text" class="search-game" placeholder="Search..." />
+          <button class="search-button">Search</button>
+        </div>
+        <div class="games-container"></div>
       </div>
-      <div class="games-container"></div>
-    </div>
-    <div id="zad3" class="task-section">
-      <h2>Search game by platform</h2>
-      <ul class="platforms-container"></ul>
-      <div class="search-holder">
-        <input type="text" class="search-platform" placeholder="Search..." />
-        <button class="search-platform-button">Search</button>
+      <div id="zad3" class="task-section search-section">
+        <h2>Search game by platform</h2>
+        <ul class="platforms-container"></ul>
+        <div class="search-holder">
+          <input type="text" class="search-platform" placeholder="Search..." />
+          <button class="search-platform-button">Search</button>
+        </div>
+        <div class="games-container"></div>
       </div>
-      <div class="games-container"></div>
+      <div id="zad4" class="task-section search-section">
+        <h2>Search game by id</h2>
+        <div class="search-holder">
+          <input type="text" class="search-gameId" placeholder="Search..." />
+          <button class="search-gameId-button">Search</button>
+        </div>
+        <div class="searched-game-container"></div>
+      </div>
     </div>
+    <script src="./Script/search-options.js"></script>
   </body>
 </html>

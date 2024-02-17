@@ -74,37 +74,37 @@ function changePlatformsColor(platformElements, enteredPlatformNames) {
         }
     };
 
-//ZAD 3
-let platforms = await getPopularPlatforms();
+    //ZAD 3
+    let platforms = await getPopularPlatforms();
 
-const platformNameToIdMap = {};
-platforms.forEach(platform => {
-    platformNameToIdMap[platform.name.toLowerCase()] = platform.id;
-});
+    const platformNameToIdMap = {};
+    platforms.forEach(platform => {
+        platformNameToIdMap[platform.name.toLowerCase()] = platform.id;
+    });
 
-const platformsContainer = document.querySelector(".platforms-container");
-platforms.forEach(platform => {
-    let platformCard = document.createElement("li");
-    platformCard.textContent = platform.name;
-    platformsContainer.appendChild(platformCard);
-});
+    const platformsContainer = document.querySelector(".platforms-container");
+    platforms.forEach(platform => {
+        let platformCard = document.createElement("li");
+        platformCard.textContent = platform.name;
+        platformsContainer.appendChild(platformCard);
+    });
 
-const platformsButton = document.querySelector(".search-platform-button");
-platformsButton.onclick = async () => {
-    gameContainer3.innerHTML = "";
-    let enteredPlatforms = document.querySelector(".search-platform").value;
+    const platformsButton = document.querySelector(".search-platform-button");
+    platformsButton.onclick = async () => {
+        gameContainer3.innerHTML = "";
+        let enteredPlatforms = document.querySelector(".search-platform").value;
 
-    const enteredPlatformNames = enteredPlatforms.split(",").map(name => name.trim().toLowerCase());
+        const enteredPlatformNames = enteredPlatforms.split(",").map(name => name.trim().toLowerCase());
 
-    const enteredPlatformIds = enteredPlatformNames.map(name => platformNameToIdMap[name]).filter(id => id !== undefined);
+        const enteredPlatformIds = enteredPlatformNames.map(name => platformNameToIdMap[name]).filter(id => id !== undefined);
 
-    let gamesByPlatform = await getGamesByPlatforms(enteredPlatformIds);
-    appendGames(gamesByPlatform, gameContainer3);
+        let gamesByPlatform = await getGamesByPlatforms(enteredPlatformIds);
+        appendGames(gamesByPlatform, gameContainer3);
 
-    const platformElements = document.querySelectorAll('.platforms-container li');
-    changePlatformsColor(platformElements, enteredPlatformNames);
-};
+        const platformElements = document.querySelectorAll('.platforms-container li');
+        changePlatformsColor(platformElements, enteredPlatformNames);
+    };
 
-
+    //ZAD 4
 })();
 
