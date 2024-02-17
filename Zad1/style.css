@@ -70,3 +70,17 @@ h2 {
 #zad4 {
   display: none;
 }
+
+.searched-game-container {
+  width: 75%;
+  display: flex;
+  margin: 0 auto;
+  gap: 5rem;
+}
+.game-title {
+  font-size: 40px;
+}
+.searched-game-container img {
+  width: 45%;
+  height: auto;
+}

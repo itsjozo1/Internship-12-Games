@@ -68,9 +68,23 @@ async function getGamesByPlatforms(platforms){
     }
 }
 
+async function getGameById(id){
+    const params = new URL(`${siteUrl}/games/${id}${apiKey}`);
+
+    try {
+        const response = await fetch(params);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Failed to fetch games by platform');
+    }
+}
+
 export { 
     getTopRated,
     getSearchedGames,
     getPopularPlatforms,
-    getGamesByPlatforms
+    getGamesByPlatforms,
+    getGameById
 };

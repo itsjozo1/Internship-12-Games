@@ -2,12 +2,61 @@ import {
     getTopRated,
     getSearchedGames,
     getPopularPlatforms,
-    getGamesByPlatforms
+    getGamesByPlatforms,
+    getGameById
 } from "./Api.js";
 
 let gameContainer1 = document.querySelector("#zad1 .games-container");
 let gameContainer2 = document.querySelector("#zad2 .games-container");
 let gameContainer3 = document.querySelector("#zad3 .games-container");
+
+function createGameCard(game) {
+    if (game.background_image === null) {
+        game.background_image = "./Assets/no-imeage.png";
+    }
+    let genresList = game.genres.map(genre => genre.name);
+
+    // Generate stars based on Metacritic rating
+    let stars = "";
+    if (game.metacritic !== null) {
+        const rating = parseInt(game.metacritic);
+        const numStars = Math.round(rating / 20); 
+
+        // Loop through 5 stars
+        for (let i = 0; i < 5; i++) {
+            if (i < numStars) {
+                stars += "★"; // Full star
+            } else {
+                stars += "☆"; // Empty star
+            }
+        }
+    } else {
+        // Handle case where Metacritic rating is null
+        for (let i = 0; i < 5; i++) {
+            stars += "☆"; // Empty star
+        }
+    }
+
+    return `
+    <img class="" src=${game.background_image} alt=${game.name}>
+    <div class="game-desc">
+      <h3 class="game-title">${game.name} ${stars}</h3>
+      <p class="game-text">
+           Release Date: 
+           <span class="release-date">${game.released}</span>
+       </p>
+      <p class="game-text">
+           Metacritic rating: 
+           <span class="rating">${game.metacritic}</span>
+       </p>
+       <p>
+            Genre:
+            <span>${genresList.join(", ")}</span>
+       </p>
+    </div>
+    `;
+}
+
 
 
 function createGameDesc(game){
@@ -105,6 +154,15 @@ function changePlatformsColor(platformElements, enteredPlatformNames) {
         changePlatformsColor(platformElements, enteredPlatformNames);
     };
 
-    //ZAD 4
+    let searchIdButton = document.querySelector(".search-gameId-button");
+    searchIdButton.onclick = async () => {
+        let enteredId = document.querySelector(".search-gameId").value;
+        console.log(enteredId);
+        let searchedGameById = await getGameById(enteredId);
+        console.log(searchedGameById);
+        let searchedGameCard = document.querySelector(".searched-game-container");
+        searchedGameCard.innerHTML = createGameCard(searchedGameById);
+    };
+    
 })();
 
