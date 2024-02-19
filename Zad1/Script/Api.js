@@ -137,6 +137,23 @@ async function getGamesByDeveloper(developers) {
     }
   }
 
+
+  async function getGamesByMetacritic(start, end) {
+    const params = new URL(`${siteUrl}/games${apiKey}`);
+    params.searchParams.append("metacritic", `${start},${end}`);
+    params.searchParams.append("page_size", "20");
+    params.searchParams.append("ordering", "-metacritic, name");
+  
+    try {
+        const response = await fetch(params);
+        const data = await response.json();
+        return data.results;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Failed to fetch games by metacritic');
+    }
+  }
+
 export { 
     getTopRated,
     getSearchedGames,
@@ -147,4 +164,5 @@ export {
     getTopDevelopers,
     getGamesByDeveloper,
     getGamesByDate,
+    getGamesByMetacritic
 };

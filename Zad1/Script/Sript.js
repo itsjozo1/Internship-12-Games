@@ -7,7 +7,8 @@ import {
     getStoreDetails,
     getTopDevelopers,
     getGamesByDeveloper,
-    getGamesByDate
+    getGamesByDate,
+    getGamesByMetacritic
 } from "./Api.js";
 
 let gameContainer1 = document.querySelector("#zad1 .games-container");
@@ -15,6 +16,7 @@ let gameContainer2 = document.querySelector("#zad2 .games-container");
 let gameContainer3 = document.querySelector("#zad3 .games-container");
 let gameContainer6 = document.querySelector("#zad6 .games-from-developer-container");
 let gameContainer7 = document.querySelector("#zad7 .games-container");
+let gameContainer8 = document.querySelector("#zad8 .games-container");
 
 function createGameCard(game) {
     if (game.background_image === null) {
@@ -170,6 +172,19 @@ function checkDates(startDate, endDate) {
     return true; 
 }
 
+function checkNumbers(startMetacritic, endMetacritic){
+    startMetacritic = parseInt(startMetacritic);
+    endMetacritic = parseInt(endMetacritic);
+
+    if (isNaN(startMetacritic) || isNaN(endMetacritic) || startMetacritic < 0 || startMetacritic > 100 || endMetacritic < 0 || endMetacritic > 100) {
+        alert("Metacritic scores must be between 0 and 100.");
+    }
+
+    if (startMetacritic > endMetacritic) {
+        alert("Minimum Metacritic score cannot be greater than the maximum score.");
+        return; 
+    }
+}
 
 (async () => {
     //ZAD 1
@@ -291,5 +306,16 @@ function checkDates(startDate, endDate) {
         appendGames(gamesByDate, gameContainer7);
     }
 
+    //ZAD 8
+    let searchGameByMetacritic = document.querySelector(".search-games-metacritic-button");
+
+    searchGameByMetacritic.onclick = async () => {
+        gameContainer8.innerHTML = "";
+        let startMetacritic = document.querySelector(".search-game-start-metacritic").value;
+        let endMetacritic = document.querySelector(".search-game-end-metacritic").value;
+        let gamesByMetacritic = await getGamesByMetacritic(startMetacritic, endMetacritic);
+        checkNumbers(startMetacritic, endMetacritic);
+        appendGames(gamesByMetacritic, gameContainer8);
+    }
 })();
 

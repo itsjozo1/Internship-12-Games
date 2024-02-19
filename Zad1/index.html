@@ -17,7 +17,9 @@
       <ul class="search-option-list">
         <li class="zad1">Search by name</li>
         <li class="zad2">Search by platforms</li>
-        <li class="zad2">Search by id</li>
+        <li class="zad3">Search by id</li>
+        <li class="zad7">Search by date</li>
+        <li class="zad8">Search by metacritic</li>
       </ul>
       <div id="zad2" class="task-section search-section">
         <h2>Search game</h2>
@@ -44,6 +46,44 @@
         </div>
         <div class="searched-game-container"></div>
       </div>
+      <div id="zad7" class="task-section search-section">
+        <h2>Search game by date</h2>
+        <div class="search-holder">
+          <p>From</p>
+          <input
+            type="text"
+            class="search-game-start-date"
+            placeholder="Search..."
+          />
+          <p>To</p>
+          <input
+            type="text"
+            class="search-game-end-date"
+            placeholder="Search..."
+          />
+          <button class="search-games-by-date-button">Search</button>
+        </div>
+        <div class="games-container"></div>
+      </div>
+      <div id="zad8" class="task-section search-section">
+        <h2>Search game by metacritics</h2>
+        <div class="search-holder">
+          <p>From</p>
+          <input
+            type="text"
+            class="search-game-start-metacritic"
+            placeholder="Search..."
+          />
+          <p>To</p>
+          <input
+            type="text"
+            class="search-game-end-metacritic"
+            placeholder="Search..."
+          />
+          <button class="search-games-metacritic-button">Search</button>
+        </div>
+        <div class="games-container"></div>
+      </div>
     </div>
     <div id="zad5" class="task-section">
       <h2>Search game in stores</h2>
@@ -67,25 +107,6 @@
       <div class="gbd-overflow-container">
         <div class="games-from-developer-container"></div>
       </div>
-    </div>
-    <div id="zad7" class="task-section search-section">
-      <h2>Search game by date</h2>
-      <div class="search-holder">
-        <p>From</p>
-        <input
-          type="text"
-          class="search-game-start-date"
-          placeholder="Search..."
-        />
-        <p>To</p>
-        <input
-          type="text"
-          class="search-game-end-date"
-          placeholder="Search..."
-        />
-        <button class="search-games-by-date-button">Search</button>
-      </div>
-      <div class="games-container"></div>
     </div>
     <script src="./Script/search-options.js"></script>
   </body>

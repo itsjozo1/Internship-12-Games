@@ -6,12 +6,24 @@ options.forEach((option, index) => {
             div.style.display = 'none';
         });
 
-        if (index === 0) {
-            document.querySelector('#zad2').style.display = 'block';
-        } else if (index === 1) {
-            document.querySelector('#zad3').style.display = 'block';
-        } else if (index === 2) {
-            document.querySelector('#zad4').style.display = 'block';
+        switch(index) {
+            case 0:
+                document.querySelector('#zad2').style.display = 'block';
+                break;
+            case 1:
+                document.querySelector('#zad3').style.display = 'block';
+                break;
+            case 2:
+                document.querySelector('#zad4').style.display = 'block';
+                break;
+            case 3:
+                document.querySelector('#zad7').style.display = 'block';
+                break;
+            case 4:
+                document.querySelector('#zad8').style.display = 'block';
+                break;
+            default:
+                break;
         }
     });
 });
