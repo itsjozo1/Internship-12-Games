@@ -9,7 +9,7 @@ import {
     getGamesByDeveloper,
     getGamesByDate,
     getGamesByMetacritic
-} from "./Api.js";
+} from "./api.js";
 
 let gameContainer1 = document.querySelector("#zad1 .games-container");
 let gameContainer2 = document.querySelector("#zad2 .games-container");
@@ -176,8 +176,8 @@ function checkNumbers(startMetacritic, endMetacritic){
     startMetacritic = parseInt(startMetacritic);
     endMetacritic = parseInt(endMetacritic);
 
-    if (isNaN(startMetacritic) || isNaN(endMetacritic) || startMetacritic < 0 || startMetacritic > 100 || endMetacritic < 0 || endMetacritic > 100) {
-        alert("Metacritic scores must be between 0 and 100.");
+    if (isNaN(startMetacritic) || isNaN(endMetacritic) || startMetacritic < 1|| startMetacritic > 100 || endMetacritic < 1 || endMetacritic > 100) {
+        alert("Metacritic scores must be between 1 and 100.");
     }
 
     if (startMetacritic > endMetacritic) {
@@ -189,7 +189,6 @@ function checkNumbers(startMetacritic, endMetacritic){
 (async () => {
     //ZAD 1
     let games = await getTopRated();
-    console.log(games);
     appendGames(games, gameContainer1);
 
     //ZAD 2
@@ -240,9 +239,7 @@ function checkNumbers(startMetacritic, endMetacritic){
     let searchIdButton = document.querySelector(".search-gameId-button");
     searchIdButton.onclick = async () => {
         let enteredId = document.querySelector(".search-gameId").value;
-        console.log(enteredId);
         let searchedGameById = await getGameById(enteredId);
-        console.log(searchedGameById);
         let searchedGameCard = document.querySelector(".searched-game-container");
         searchedGameCard.innerHTML = createGameCard(searchedGameById);
     };

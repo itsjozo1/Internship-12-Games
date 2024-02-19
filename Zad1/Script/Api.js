@@ -6,19 +6,22 @@ function isSafeGame(game) {
     return ![0, 5].includes(esrbRatingId);
 }
 
-async function getTopRated() {
-    const param = `${siteUrl}&ordering=-metacritic`;
-    const params = new URL(`${siteUrl}/games${apiKey}`)
-    params.searchParams.append("ordering", "-metacritic");
+async function fetchGameData(url) {
     try {
-        const response = await fetch(params);
+        const response = await fetch(url);
         const data = await response.json();
-        const safeGames = data.results.filter(game => isSafeGame(game));
-        return safeGames;
+        return data.results.filter(game => isSafeGame(game));
     } catch (error) {
         console.error(error);
-        throw new Error('Failed to fetch top rated games');
+        throw new Error(`Failed to fetch data from ${url}`);
     }
+}
+
+async function getTopRated() {
+    const params = new URL(`${siteUrl}/games${apiKey}`)
+    params.searchParams.append("ordering", "-metacritic");
+
+    return fetchGameData(params);
 }
 async function getSearchedGames(searchTerm) {
     const params = new URL(`${siteUrl}/games${apiKey}`);
@@ -26,15 +29,7 @@ async function getSearchedGames(searchTerm) {
     params.searchParams.append("page_size", "10");
     params.searchParams.append("ordering", "released");
 
-    try {
-        const response = await fetch(params);
-        const data = await response.json();
-        const safeGames = data.results.filter(game => isSafeGame(game));
-        return safeGames;
-    } catch (error) {
-        console.error(error);
-        throw new Error('Failed to fetch searched games');
-    }
+    return fetchGameData(params);
 }
 
 async function getPopularPlatforms(){
@@ -42,14 +37,7 @@ async function getPopularPlatforms(){
     params.searchParams.append("page_size", "10");
     params.searchParams.append("ordering", "-games_count");
 
-    try {
-        const response = await fetch(params);
-        const data = await response.json();
-        return data.results;
-    } catch (error) {
-        console.error(error);
-        throw new Error('Failed to fetch top platforms');
-    }
+    return fetchGameData(params);
 }
 
 async function getGamesByPlatforms(platforms){
@@ -58,14 +46,7 @@ async function getGamesByPlatforms(platforms){
     params.searchParams.append("page_size", "20");
     params.searchParams.append("ordering", "-name");
 
-    try {
-        const response = await fetch(params);
-        const data = await response.json();
-        return data.results;
-    } catch (error) {
-        console.error(error);
-        throw new Error('Failed to fetch games by platform');
-    }
+    return fetchGameData(params);
 }
 
 async function getGameById(id){
@@ -77,7 +58,7 @@ async function getGameById(id){
         return data;
     } catch (error) {
         console.error(error);
-        throw new Error('Failed to fetch games by platform');
+        throw new Error('Failed to fetch game by id');
     }
 }
 
@@ -96,14 +77,8 @@ async function getStoreDetails(id){
 async function getTopDevelopers(){
     const params = new URL(`${siteUrl}/developers${apiKey}`);
     params.searchParams.append("page_size", "10")
-    try {
-        const response = await fetch(params);
-        const data = await response.json();
-        return data.results;
-    } catch (error) {
-        console.error(error);
-        throw new Error('Failed to fetch top developers');
-    }
+
+    return fetchGameData(params);
 }
 
 async function getGamesByDeveloper(developers) {
@@ -111,14 +86,9 @@ async function getGamesByDeveloper(developers) {
     params.searchParams.append("developers", developers);
     params.searchParams.append("page_size", "10");
     params.searchParams.append("ordering", "-metacritic");
-    try {
-        const response = await fetch(params);
-        const data = await response.json();
-        return data.results;
-    } catch (error) {
-        console.error(error);
-        throw new Error('Failed to fetch games by developers');
-    }
+
+    return fetchGameData(params);
+
   }
 
   async function getGamesByDate(startDate, endDate) {
@@ -127,14 +97,7 @@ async function getGamesByDeveloper(developers) {
     params.searchParams.append("page_size", "10");
     params.searchParams.append("ordering", "-metacritic");
   
-    try {
-        const response = await fetch(params);
-        const data = await response.json();
-        return data.results;
-    } catch (error) {
-        console.error(error);
-        throw new Error('Failed to fetch games by date');
-    }
+    return fetchGameData(params);
   }
 
 
@@ -144,14 +107,7 @@ async function getGamesByDeveloper(developers) {
     params.searchParams.append("page_size", "20");
     params.searchParams.append("ordering", "-metacritic, name");
   
-    try {
-        const response = await fetch(params);
-        const data = await response.json();
-        return data.results;
-    } catch (error) {
-        console.error(error);
-        throw new Error('Failed to fetch games by metacritic');
-    }
+    return fetchGameData(params);
   }
 
 export { 
