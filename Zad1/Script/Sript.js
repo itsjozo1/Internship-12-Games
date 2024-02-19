@@ -3,7 +3,8 @@ import {
     getSearchedGames,
     getPopularPlatforms,
     getGamesByPlatforms,
-    getGameById
+    getGameById,
+    getStoreDetails
 } from "./Api.js";
 
 let gameContainer1 = document.querySelector("#zad1 .games-container");
@@ -16,24 +17,21 @@ function createGameCard(game) {
     }
     let genresList = game.genres.map(genre => genre.name);
 
-    // Generate stars based on Metacritic rating
     let stars = "";
     if (game.metacritic !== null) {
         const rating = parseInt(game.metacritic);
         const numStars = Math.round(rating / 20); 
 
-        // Loop through 5 stars
         for (let i = 0; i < 5; i++) {
             if (i < numStars) {
-                stars += "★"; // Full star
+                stars += "★";
             } else {
-                stars += "☆"; // Empty star
+                stars += "☆"; 
             }
         }
     } else {
-        // Handle case where Metacritic rating is null
         for (let i = 0; i < 5; i++) {
-            stars += "☆"; // Empty star
+            stars += "☆"; 
         }
     }
 
@@ -84,6 +82,28 @@ function createGameDesc(game){
     </div>
     `;
 }
+
+function createStoreDesc(store){
+    if(store.image_background === null){
+        store.image_background = "./Assets/no-imeage.png"
+    }
+
+    return `
+    <img src="${store.image_background}" alt="">
+    <div class="store-desc">
+      <h3 class="store-headline">${store.name}</h3>
+      <p class="store-number-of-games">Number of games: ${store.games_count}</p>
+    </div>
+    `;
+}
+
+function appendStores(store, container){
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.innerHTML = createStoreDesc(store);
+        container.appendChild(card);
+}
+
 function appendGames(games, container) {
     for (const game of games) {
         const card = document.createElement("div");
@@ -154,6 +174,7 @@ function changePlatformsColor(platformElements, enteredPlatformNames) {
         changePlatformsColor(platformElements, enteredPlatformNames);
     };
 
+    //ZAD 4
     let searchIdButton = document.querySelector(".search-gameId-button");
     searchIdButton.onclick = async () => {
         let enteredId = document.querySelector(".search-gameId").value;
@@ -162,6 +183,22 @@ function changePlatformsColor(platformElements, enteredPlatformNames) {
         console.log(searchedGameById);
         let searchedGameCard = document.querySelector(".searched-game-container");
         searchedGameCard.innerHTML = createGameCard(searchedGameById);
+    };
+    
+    //ZAD 5
+    let storesContainer = document.querySelector(".stores-container");
+    let searchStoresButton = document.querySelector(".search-stores-button");
+    
+    searchStoresButton.onclick = async () => {
+        storesContainer.innerHTML = "";
+        let enteredGameStore = document.querySelector(".search-stores").value;
+        let gameForStores = await getGameById(enteredGameStore);
+        let stores = gameForStores.stores;
+    
+        for (const store of stores) {
+            let storeDetails = await getStoreDetails(store.store.id);
+            appendStores(storeDetails, storesContainer);
+        }
     };
     
 })();

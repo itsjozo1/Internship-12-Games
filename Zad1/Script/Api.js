@@ -81,10 +81,23 @@ async function getGameById(id){
     }
 }
 
+async function getStoreDetails(id){
+    const params = new URL(`${siteUrl}/stores/${id}${apiKey}`);
+    try {
+        const response = await fetch(params);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Failed to fetch store details');
+    }
+}
+
 export { 
     getTopRated,
     getSearchedGames,
     getPopularPlatforms,
     getGamesByPlatforms,
-    getGameById
+    getGameById,
+    getStoreDetails
 };

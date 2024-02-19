@@ -9,7 +9,8 @@ h2 {
   text-align: center;
   font-size: 70px;
 }
-.games-container {
+.games-container,
+.stores-container {
   width: 80%;
   margin: auto;
   max-height: 30rem;
@@ -20,19 +21,23 @@ h2 {
   gap: 5rem;
   justify-content: space-between;
 }
-.games-container > div {
+.games-container > div,
+.stores-container > div {
   display: flex;
-  gap: 3rem;
-  width: 45%;
+  gap: 2rem;
+  width: 47%;
 }
-.games-container > h3 {
+.games-container > h3,
+.store-headline {
   font-size: 50px;
 }
-.games-container img {
+.games-container img,
+.stores-container img {
   width: 60%;
   height: auto;
 }
-.game-desc {
+.game-desc,
+.store-desc {
   display: flex;
   flex-direction: column;
 }
