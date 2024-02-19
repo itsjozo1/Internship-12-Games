@@ -6,14 +6,15 @@ import {
     getGameById,
     getStoreDetails,
     getTopDevelopers,
-    getGamesByDeveloper
+    getGamesByDeveloper,
+    getGamesByDate
 } from "./Api.js";
 
 let gameContainer1 = document.querySelector("#zad1 .games-container");
 let gameContainer2 = document.querySelector("#zad2 .games-container");
 let gameContainer3 = document.querySelector("#zad3 .games-container");
 let gameContainer6 = document.querySelector("#zad6 .games-from-developer-container");
-
+let gameContainer7 = document.querySelector("#zad7 .games-container");
 
 function createGameCard(game) {
     if (game.background_image === null) {
@@ -146,6 +147,28 @@ function changePlatformsColor(platformElements, enteredPlatformNames) {
     });
 }
 
+function checkDates(startDate, endDate) {
+    const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+    if (!dateFormatRegex.test(startDate) || !dateFormatRegex.test(endDate)) {
+        alert("Please enter dates in the format yyyy-mm-dd.");
+        return false;
+    }
+
+    const parsedStartDate = new Date(startDate);
+    const parsedEndDate = new Date(endDate);
+
+    if (isNaN(parsedStartDate.getTime()) || isNaN(parsedEndDate.getTime())) {
+        alert("Please enter valid dates.");
+        return false;
+    }
+
+    if (parsedStartDate > parsedEndDate) {
+        alert("Start date cannot be newer than end date.");
+        return false; 
+    }
+    return true; 
+}
 
 
 (async () => {
@@ -234,9 +257,6 @@ function changePlatformsColor(platformElements, enteredPlatformNames) {
         developerNameToIdMap[developer.name.toLowerCase()] = developer.id;
     });
     
-    console.log(developers);
-    console.log(developerNameToIdMap);
-    
     let developersList = document.querySelector(".developers-container");
     developers.forEach(developer => {
         let developerCard = document.createElement("li");
@@ -259,7 +279,17 @@ function changePlatformsColor(platformElements, enteredPlatformNames) {
         }
     };
     
-    
+    //ZAD 7
+    let searchGamesByDateButton = document.querySelector(".search-games-by-date-button");
+
+    searchGamesByDateButton.onclick = async () => {
+        gameContainer7.innerHTML = "";
+        let startDate = document.querySelector(".search-game-start-date").value;
+        let endDate = document.querySelector(".search-game-end-date").value;
+        let gamesByDate = await getGamesByDate(startDate, endDate);
+        checkDates(startDate, endDate);
+        appendGames(gamesByDate, gameContainer7);
+    }
 
 })();
 

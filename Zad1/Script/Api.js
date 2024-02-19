@@ -121,6 +121,22 @@ async function getGamesByDeveloper(developers) {
     }
   }
 
+  async function getGamesByDate(startDate, endDate) {
+    const params = new URL(`${siteUrl}/games${apiKey}`);
+    params.searchParams.append("dates", `${startDate},${endDate}`);
+    params.searchParams.append("page_size", "10");
+    params.searchParams.append("ordering", "-metacritic");
+  
+    try {
+        const response = await fetch(params);
+        const data = await response.json();
+        return data.results;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Failed to fetch games by date');
+    }
+  }
+
 export { 
     getTopRated,
     getSearchedGames,
@@ -129,5 +145,6 @@ export {
     getGameById,
     getStoreDetails,
     getTopDevelopers,
-    getGamesByDeveloper
+    getGamesByDeveloper,
+    getGamesByDate,
 };
