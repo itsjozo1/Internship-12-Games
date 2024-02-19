@@ -62,8 +62,6 @@ function createGameCard(game) {
     `;
 }
 
-
-
 function createGameDesc(game){
     if(game.background_image === null){
         game.background_image = "./Assets/no-imeage.png"
@@ -252,6 +250,14 @@ function checkNumbers(startMetacritic, endMetacritic){
         storesContainer.innerHTML = "";
         let enteredGameStore = document.querySelector(".search-stores").value;
         let gameForStores = await getGameById(enteredGameStore);
+        const gameForStoresCard = document.createElement("div");
+        gameForStoresCard.id = "game-for-stores-card"
+        gameForStoresCard.innerHTML = createGameCard(gameForStores);
+        storesContainer.appendChild(gameForStoresCard)
+        const storesHeadline = document.createElement("h2");
+        storesHeadline.classList.add("stores-headline")
+        storesHeadline.innerText = "Stores";
+        storesContainer.appendChild(storesHeadline)
         let stores = gameForStores.stores;
     
         for (const store of stores) {

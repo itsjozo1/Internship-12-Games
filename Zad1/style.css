@@ -22,6 +22,9 @@ h2 {
   gap: 5rem;
   justify-content: space-between;
 }
+.stores-container {
+  max-height: 55rem;
+}
 .games-container > div,
 .stores-container > div {
   display: flex;
@@ -124,4 +127,14 @@ h2 {
   width: 80%;
   margin: 0 auto;
   overflow: scroll;
+}
+
+#game-for-stores-card {
+  width: 100%;
+  padding: 0 25%;
+}
+
+.stores-headline {
+  width: 100%;
+  margin: 0;
 }
