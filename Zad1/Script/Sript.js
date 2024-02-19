@@ -4,12 +4,16 @@ import {
     getPopularPlatforms,
     getGamesByPlatforms,
     getGameById,
-    getStoreDetails
+    getStoreDetails,
+    getTopDevelopers,
+    getGamesByDeveloper
 } from "./Api.js";
 
 let gameContainer1 = document.querySelector("#zad1 .games-container");
 let gameContainer2 = document.querySelector("#zad2 .games-container");
 let gameContainer3 = document.querySelector("#zad3 .games-container");
+let gameContainer6 = document.querySelector("#zad6 .games-from-developer-container");
+
 
 function createGameCard(game) {
     if (game.background_image === null) {
@@ -112,6 +116,26 @@ function appendGames(games, container) {
         container.appendChild(card);
     }
 }
+function appendGamesByDeveloper(games, container, developer) {
+    const developerName = document.createElement("h2");
+    developerName.classList.add("developer-name");
+    developerName.textContent = developer;
+
+    const developerGames = document.createElement("div");
+    developerGames.classList.add("developer-games-container");
+
+    container.appendChild(developerGames);
+    developerGames.appendChild(developerName); 
+
+    for (const game of games) {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.innerHTML = createGameDesc(game);
+        developerGames.appendChild(card);
+    }
+}
+
+
 function changePlatformsColor(platformElements, enteredPlatformNames) {
     platformElements.forEach(platformElement => {
         platformElement.style.color = 'white';
@@ -201,5 +225,41 @@ function changePlatformsColor(platformElements, enteredPlatformNames) {
         }
     };
     
+    //ZAD 6
+    let developers = await getTopDevelopers();
+    let searchDeveloperGamesButton = document.querySelector(".search-games-by-developer-button");
+    let developerNameToIdMap = {};
+    
+    developers.forEach(developer => {
+        developerNameToIdMap[developer.name.toLowerCase()] = developer.id;
+    });
+    
+    console.log(developers);
+    console.log(developerNameToIdMap);
+    
+    let developersList = document.querySelector(".developers-container");
+    developers.forEach(developer => {
+        let developerCard = document.createElement("li");
+        developerCard.textContent = developer.name;
+        developersList.appendChild(developerCard);
+    });
+    
+    searchDeveloperGamesButton.onclick = async () => {
+        gameContainer6.innerHTML = "";
+        let enteredDevelopers = document.querySelector(".search-games-by-developer").value;
+        let developerNames = enteredDevelopers.split(",").map(name => name.trim().toLowerCase());
+        const developersWithIds = developerNames.map(name => {
+            const id = developerNameToIdMap[name];
+            return { name, id };
+        }).filter(developer => developer.id !== undefined);
+        
+        for (const developer of developersWithIds) {
+            let gamesByDeveloper = await getGamesByDeveloper(developer.id);
+            appendGamesByDeveloper(gamesByDeveloper, gameContainer6, developer.name);
+        }
+    };
+    
+    
+
 })();
 

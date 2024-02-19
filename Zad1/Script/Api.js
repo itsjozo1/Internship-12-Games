@@ -93,11 +93,41 @@ async function getStoreDetails(id){
     }
 }
 
+async function getTopDevelopers(){
+    const params = new URL(`${siteUrl}/developers${apiKey}`);
+    params.searchParams.append("page_size", "10")
+    try {
+        const response = await fetch(params);
+        const data = await response.json();
+        return data.results;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Failed to fetch top developers');
+    }
+}
+
+async function getGamesByDeveloper(developers) {
+    const params = new URL(`${siteUrl}/games${apiKey}`);
+    params.searchParams.append("developers", developers);
+    params.searchParams.append("page_size", "10");
+    params.searchParams.append("ordering", "-metacritic");
+    try {
+        const response = await fetch(params);
+        const data = await response.json();
+        return data.results;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Failed to fetch games by developers');
+    }
+  }
+
 export { 
     getTopRated,
     getSearchedGames,
     getPopularPlatforms,
     getGamesByPlatforms,
     getGameById,
-    getStoreDetails
+    getStoreDetails,
+    getTopDevelopers,
+    getGamesByDeveloper
 };
